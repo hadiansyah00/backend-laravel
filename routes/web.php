@@ -1,7 +1,14 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MenuController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\Admin\PagesController;
+use App\Http\Controllers\Admin\PageSectionController;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -11,22 +18,24 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'role:admin'])->prefix('admin')->as('admin.')->group(function () {
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::middleware('role:admin')->group(function () {
-        Route::resource('users', App\Http\Controllers\UserController::class);
-        Route::post('permissions/store-multiple', [App\Http\Controllers\PermissionController::class, 'storeMultiple'])->name('permissions.storeMultiple'); // <-- ROUTE BARU
-        Route::resource('permissions', App\Http\Controllers\PermissionController::class)->except('show');
-    });
+
+    Route::resource('users', UserController::class);
+    Route::resource('roles', RoleController::class);
+    Route::resource('menus', MenuController::class);
+    Route::resource('pages', PagesController::class);
+    Route::resource('pages.sections', PageSectionController::class)->shallow();
+
+    // Untuk Permission, kita definisikan route custom di atas resource
+    Route::post('permissions/store-multiple', [PermissionController::class, 'storeMultiple'])->name('permissions.storeMultiple');
+    Route::resource('permissions', PermissionController::class)->except('show');
 
 
-
-    // --- CONTOH PROTEKSI ROUTE ---
-
-    // Hanya bisa diakses oleh user dengan role 'admin'
     Route::get('/admin/users', function() {
         return '<h1>Halaman Kelola User (Hanya Admin)</h1>';
     })->middleware('role:admin')->name('admin.users');
@@ -41,6 +50,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/articles', function() {
         return '<h1>Halaman Kelola Artikel (Admin & Writer)</h1>';
     })->middleware('role:admin|writer')->name('articles.index');
+
 });
+
+
+
+    // --- CONTOH PROTEKSI ROUTE ---
+
+    // Hanya bisa diakses oleh user dengan role 'admin'
+
+
 
 require __DIR__.'/auth.php';

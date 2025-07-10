@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
+use App\Models\Menu;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -24,5 +26,10 @@ class AppServiceProvider extends ServiceProvider
         Gate::before(function ($user, $ability) {
             return $user->hasRole('admin') ? true : null;
         });
+        View::share('dynamic_menus', Menu::whereNull('parent_id') // Hanya ambil menu induk
+        ->with('children') // Langsung ambil relasi submenu
+        ->active()
+        ->orderBy('order')
+        ->get());
     }
 }
