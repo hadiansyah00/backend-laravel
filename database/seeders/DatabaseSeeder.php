@@ -14,9 +14,9 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
-            // MenuSeeder::class,
-            // PageSeeder::class,
-            // MetaSettingSeeder::class,
+            MenuSeeder::class,
+            PageSeeder::class,
+            MetaSettingSeeder::class,
             PageSectionSeeder::class,
         ]);
     }

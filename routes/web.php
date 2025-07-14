@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
@@ -9,56 +10,63 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\Admin\PagesController;
 use App\Http\Controllers\Admin\PageSectionController;
 
+// 1. Route Homepage (Landing Page)
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// 2. Route Statis Khusus (About, Contact, dll)
+Route::get('/tentang-kami', [PagesController::class, 'about'])->name('about');
+Route::get('/kontak', [PagesController::class, 'contact'])->name('contact');
 
+// 3. Auth Routes
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware(['auth', 'role:admin'])->prefix('admin')->as('admin.')->group(function () {
+// 4. Dynamic Pages (should come after static routes)
+Route::get('/{slug}', [PagesController::class, 'show'])
+    ->where('slug', '^(?!admin|login|register|dashboard|tentang-kami|kontak).*$')
+    ->name('pages.show');
 
+// 5. Admin Routes Group
+Route::middleware(['auth', 'role:admin'])->prefix('admin')->as('admin.')->group(function () {
+    // Profile Routes
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-
+    // Resource Routes
     Route::resource('users', UserController::class);
     Route::resource('roles', RoleController::class);
     Route::resource('menus', MenuController::class);
     Route::resource('pages', PagesController::class);
-    Route::resource('pages.sections', PageSectionController::class)->shallow();
+    
+    // Page Sections with custom parameters
+    Route::resource('pages.sections', PageSectionController::class)
+        ->parameters(['pages' => 'page:slug'])
+        ->shallow()
+        ->names([
+            'index' => 'pages.sections.index',
+            'create' => 'pages.sections.create',
+            'store' => 'pages.sections.store',
+            'show' => 'sections.show',
+            'edit' => 'sections.edit',
+            'update' => 'sections.update',
+            'destroy' => 'sections.destroy',
+        ]);
 
-    // Untuk Permission, kita definisikan route custom di atas resource
-    Route::post('permissions/store-multiple', [PermissionController::class, 'storeMultiple'])->name('permissions.storeMultiple');
+    // Permissions with custom route
+    Route::post('permissions/store-multiple', [PermissionController::class, 'storeMultiple'])
+        ->name('permissions.storeMultiple');
     Route::resource('permissions', PermissionController::class)->except('show');
 
-
-    Route::get('/admin/users', function() {
-        return '<h1>Halaman Kelola User (Hanya Admin)</h1>';
-    })->middleware('role:admin')->name('admin.users');
-
-    // Hanya bisa diakses oleh user dengan izin 'publish articles'
-    // Role 'admin' bisa, tapi 'writer' tidak bisa
-    Route::get('/admin/publish', function() {
+    // Special permission routes
+    Route::get('/publish', function() {
         return '<h1>Halaman Publikasi Artikel (Hanya Publisher)</h1>';
-    })->middleware('permission:publish articles')->name('admin.publish');
+    })->middleware('permission:publish articles')->name('publish');
 
-    // Bisa diakses oleh role 'admin' ATAU 'writer'
     Route::get('/articles', function() {
         return '<h1>Halaman Kelola Artikel (Admin & Writer)</h1>';
     })->middleware('role:admin|writer')->name('articles.index');
-
 });
-
-
-
-    // --- CONTOH PROTEKSI ROUTE ---
-
-    // Hanya bisa diakses oleh user dengan role 'admin'
-
-
 
 require __DIR__.'/auth.php';

@@ -9,7 +9,7 @@
             <form action="{{ route('admin.pages.sections.store', $page) }}" method="POST">
                 @csrf
                 <div class="p-6 overflow-hidden bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
-                    @include('admin.sections.form')
+                    @include('admin.sections.partials.form')
                     <div class="flex items-center justify-end pt-6 mt-6 border-t dark:border-gray-600">
                         <a href="{{ route('admin.pages.sections.index', $page) }}"
                             class="px-4 py-2 mr-2 font-bold text-white bg-gray-500 rounded hover:bg-gray-700 dark:bg-gray-600 dark:hover:bg-gray-500">Batal</a>

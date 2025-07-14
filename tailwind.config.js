@@ -13,11 +13,18 @@ export default {
 
     theme: {
         extend: {
+            colors: {
+                primary: {
+                  500: '#3B82F6',
+                  600: '#2563EB',
+
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
         },
     },
+},
+},
 
     plugins: [forms],
 };

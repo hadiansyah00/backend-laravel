@@ -14,6 +14,7 @@ class Menu extends Model
     protected $fillable = [
         'name',
         'slug',
+        'icon_svg',
         'url',
         'type',
         'parent_id',
@@ -24,17 +25,14 @@ class Menu extends Model
     /**
      * Menu induk (jika ini submenu)
      */
+    public function children()
+    {
+        return $this->hasMany(Menu::class, 'parent_id')->orderBy('order');
+    }
+
     public function parent()
     {
         return $this->belongsTo(Menu::class, 'parent_id');
-    }
-
-    /**
-     * Submenu (anak dari menu ini)
-     */
-    public function children()
-    {
-        return $this->hasMany(Menu::class, 'parent_id');
     }
 
     /**

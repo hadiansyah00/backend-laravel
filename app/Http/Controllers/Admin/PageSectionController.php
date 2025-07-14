@@ -23,48 +23,38 @@ class PageSectionController extends Controller
         return view('admin.sections.create', compact('page'));
     }
 
-    public function store(Request $request, Pages $page): RedirectResponse
-    {
-        $validated = $request->validate([
-            'type'    => 'required|string|max:255',
-            'content' => 'required|json',
-            'order'   => 'required|integer',
-        ]);
 
-        $page->sections()->create($validated);
-
-        return redirect()
-            ->route('admin.sections.index', ['page' => $page->id])
-            ->with('success', 'Section berhasil ditambahkan.');
-    }
 
     public function edit(PageSections $section): View
     {
         return view('admin.sections.edit', compact('section'));
     }
 
+    public function store(Request $request, Pages $page): RedirectResponse
+    {
+        $validated = $request->validate([/* ... */]);
+        $page->sections()->create($validated);
+
+        return redirect()
+            ->route('admin.pages.sections.index', ['page' => $page->id])
+            ->with('success', 'Section created!');
+    }
+
     public function update(Request $request, PageSections $section): RedirectResponse
     {
-        $validated = $request->validate([
-            'type'    => 'required|string|max:255',
-            'content' => 'required|json',
-            'order'   => 'required|integer',
-        ]);
-
+        $validated = $request->validate([/* ... */]);
         $section->update($validated);
 
         return redirect()
-            ->route('admin.sections.index', ['page' => $section->page_id])
-            ->with('success', 'Section berhasil diperbarui.');
+            ->route('admin.sections.edit', ['section' => $section->id])
+            ->with('success', 'Section updated!');
     }
 
     public function destroy(PageSections $section): RedirectResponse
     {
-        $pageId = $section->page_id;
         $section->delete();
-
         return redirect()
-            ->route('admin.sections.index', ['page' => $pageId])
-            ->with('success', 'Section berhasil dihapus.');
+            ->route('admin.pages.sections.index', ['page' => $section->page_id])
+            ->with('success', 'Section deleted!');
     }
 }

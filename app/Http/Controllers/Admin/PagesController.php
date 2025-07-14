@@ -67,4 +67,14 @@ class PagesController extends Controller
         $page->delete();
         return redirect()->route('admin.pages.index')->with('success', 'Halaman berhasil dihapus.');
     }
+  public function show($slug)
+    {
+        $page = Pages::with(['sections' => function($query) {
+                $query->orderBy('order');
+            }])
+            ->where('slug', $slug)
+            ->firstOrFail(['id', 'title', 'slug', 'content']);
+
+        return view('front.pages.show', compact('page'));
+    }
 }

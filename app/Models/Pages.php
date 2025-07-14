@@ -18,6 +18,7 @@ class Pages extends Model
         'slug',
         'type',
         'content',
+        'is_homepage',
         'is_published',
     ];
 
@@ -34,7 +35,7 @@ class Pages extends Model
      */
     public function sections()
 {
-    return $this->hasMany(PageSections::class, 'page_id');
+    return $this->hasMany(PageSections::class, 'page_id')->orderBy('order');
 }
 
     /**
