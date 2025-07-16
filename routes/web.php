@@ -4,16 +4,19 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\BeritaController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\FrontPagesController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\Admin\PagesController;
 use App\Http\Controllers\Admin\PageSectionController;
 
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Halaman utama pakai FrontPagesController
+Route::get('/', [FrontPagesController::class, 'index'])->name('home');
+Route::get('/berita', [FrontPagesController::class, 'berita'])->name('berita');
 
+// Berita dipisah ke path khusus (misal /berita)
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');

@@ -1,3 +1,36 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+/* Tambahkan utilitas untuk menyembunyikan scrollbar */
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+  /* Scroll behavior */
+.carousel-container {
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+}
+
+/* Hide scrollbar for Chrome/Safari */
+.carousel-container::-webkit-scrollbar {
+    display: none;
+}
+
+/* Item transition */
+.carousel-item {
+    transition: transform 0.3s ease;
+}
+
+/* Disabled button state */
+.carousel-btn[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+}
