@@ -1,8 +1,3 @@
-{{--
-State Alpine.js diperbarui:
-- atTop: Untuk efek transparan saat scroll.
-- isMobileMenuOpen: Untuk membuka/menutup menu di versi mobile.
---}}
 <nav x-data="{ atTop: true, isMobileMenuOpen: false }" @scroll.window="atTop = (window.scrollY < 50)"
     class="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
     :class="{ 'bg-white/90 shadow-md backdrop-blur-sm': !atTop || isMobileMenuOpen }">
@@ -47,7 +42,6 @@ State Alpine.js diperbarui:
                         Organisasi</a>
                 </div>
             </div>
-
             <a href="#" class="hover:text-purple-600">Publikasi</a>
             <a href="#" class="hover:text-purple-600">Wilayah</a>
             <a href="#"

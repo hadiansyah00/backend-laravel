@@ -44,10 +44,20 @@ class FrontPagesController extends Controller
             $buku = [];
             \Log::error('Catch error', ['message' => $e->getMessage()]);
         }
-
-        return view('front-pages.index', compact('berita', 'buku'));
+         $mitra = [
+            ['nama' => 'Mitra 1', 'logo' => '1.png'],
+            ['nama' => 'Mitra 2', 'logo' => '2.jpeg'],
+            ['nama' => 'Mitra 3', 'logo' => '3.png'],
+            ['nama' => 'Mitra 4', 'logo' => '4.png'],
+            ['nama' => 'Mitra 5', 'logo' => '5.png'],
+            ['nama' => 'Mitra 6', 'logo' => '6.jpeg'],
+        ];
+        return view('front-pages.index', compact('berita', 'buku','mitra'));
     }
-
-
-
+     public function wilayahOrganisasi(): View
+    {
+        // Di sini Anda bisa mengambil data dari database jika perlu.
+        // Untuk saat ini, kita hanya akan menampilkan view-nya.
+        return view('front-pages.wilayah-organisasi.index');
+    }
 }

@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\PageSectionController;
 // Halaman utama pakai FrontPagesController
 Route::get('/', [FrontPagesController::class, 'index'])->name('home');
 Route::get('/berita', [FrontPagesController::class, 'berita'])->name('berita');
+Route::get('/wilayah-organisasi', [FrontPagesController::class, 'wilayahOrganisasi'])->name('wilayah');
 
 // Berita dipisah ke path khusus (misal /berita)
 Route::get('/dashboard', function () {
