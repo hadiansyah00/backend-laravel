@@ -5,37 +5,50 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>SBH</title>
+    {{-- Title & Metadata --}}
+    <title>PEREMPUAN AMAN</title>
+    <meta name="description"
+        content="PEREMPUAN AMAN adalah organisasi sayap dari AMAN yang memfasilitasi perempuan adat untuk mengorganisir diri, pengetahuan, dan hak-haknya demi menjaga ketahanan hidup komunitas adat secara turun-temurun.">
+    <meta name="keywords"
+        content="Perempuan Adat, AMAN, Nusantara, Komunitas Adat, Hukum Adat, Hak Perempuan, Lingkungan, Organisasi">
+    <meta name="author" content="PEREMPUAN AMAN">
 
+    {{-- Favicon --}}
+    <link rel="icon" type="image/png" href="{{ asset('assets/img/icon/logo.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('assets/img/icon/logo.png') }}">
+
+    {{-- Fonts --}}
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,600,700&display=swap" rel="stylesheet" />
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    {{-- 1. Tambahkan Alpine.js di sini --}}
+
+    {{-- Styles --}}
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    {{-- Carousel & Animations --}}
     <style>
-        /* Untuk carousel */
         .carousel-container {
             scroll-behavior: smooth;
             scrollbar-width: none;
-            /* Untuk Firefox */
+            /* Firefox */
         }
 
         .carousel-container::-webkit-scrollbar {
             display: none;
-            /* Untuk Chrome/Safari */
+            /* Chrome/Safari */
         }
 
-        /* Untuk transition yang lebih smooth */
         .carousel-item {
             transition: transform 0.3s ease;
         }
 
-        /* Untuk disabled state pada tombol navigasi */
         .carousel-btn[disabled] {
             opacity: 0.5;
             cursor: not-allowed;
         }
 
-        fade-in-up {
+        .fade-in-up {
             opacity: 0;
             transform: translateY(20px);
             transition: opacity 0.5s ease-out, transform 0.5s ease-out;
@@ -46,8 +59,9 @@
             transform: translateY(0);
         }
     </style>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+    {{-- Alpine.js --}}
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 
 <body class="font-sans antialiased">

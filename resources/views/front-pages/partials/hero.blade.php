@@ -27,10 +27,9 @@ Setiap 5 detik (5000ms), 'activeSlide' akan berganti.
 
     <div class="relative z-10 px-4 text-center text-white">
         <h1 class="text-5xl font-bold leading-tight tracking-wider md:text-7xl">
-            SBH
+            PEREMPUAN AMAN
         </h1>
         <p class="mt-4 text-xl font-light md:text-2xl">
-            STIKES B OGOR HUSADA
-        </p>
+            Persekutuan Perempuan Adat Nusantara </p>
     </div>
 </section>

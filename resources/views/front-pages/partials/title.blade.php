@@ -12,7 +12,7 @@
 
             <div>
                 <h2 class="mb-4 text-3xl font-bold tracking-tight text-gray-800">
-                    Mengenal <span class="text-purple-600">STIKes Bogor Husada</span>
+                    Mengenal <span class="text-purple-600">PEREMPUAN AMAN</span>
                 </h2>
 
                 <p class="mb-6 leading-relaxed text-gray-600">
